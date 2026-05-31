@@ -1,0 +1,2482 @@
+###############################################################################
+# Smart Home 21 - Master Dashboard (Lovelace, sections view)
+# ---------------------------------------------------------------------------
+# Drop-in dashboard for fresh Home Assistant installs.
+# Host this file in your repo and pull updates via git.
+#
+# INSTALL (YAML mode):
+#   1. Save this file as e.g. /config/dashboards/smarthome21.yaml
+#   2. In configuration.yaml add:
+#        lovelace:
+#          mode: storage          # keep the default dashboard editable in the UI
+#          dashboards:
+#            smarthome21:
+#              mode: yaml
+#              title: Smart Home 21
+#              icon: mdi:home-assistant
+#              show_in_sidebar: true
+#              filename: dashboards/smarthome21.yaml
+#   3. Restart HA (or Developer Tools > YAML > Reload Dashboards).
+#      To update later: git pull, then reload dashboards.
+#
+# HACS DEPENDENCIES (install BEFORE loading or cards show "custom element not found"):
+#   Cards : button-card, Mushroom, card-mod, calendar-card-pro, fold-entity-row
+#   Themes: ios-light-mode-red-alternative,
+#           Frosted Glass (Light / Lite / Dark Lite / Light Lite), Google Theme
+#
+# ENTITY IDs: the switch.* / climate.* / cover.* / scene.* IDs below come from a
+#   reference install and WILL differ per house. Recommended workflow: on each
+#   new build, rename the device entities to match these IDs
+#   (Settings > Devices & Services > Entities > rename) and the whole dashboard
+#   "just works". Otherwise edit the IDs per job.
+#
+# ROOM IMAGES: picture-glance cards expect images at
+#   /config/www/smarthome21/rooms/<room>.jpg  (served as /local/smarthome21/rooms/..)
+###############################################################################
+
+views:
+  - type: sections
+    max_columns: 4
+    title: My Home
+    path: my-home
+    sections:
+      - type: grid
+        cards:
+          - type: custom:button-card
+            entity: light.all_lights
+            name: Lights
+            icon: mdi:lightbulb-group
+            show_name: true
+            show_icon: true
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/lights
+            hold_action:
+              action: none
+            styles:
+              card:
+                - border-radius: 12px
+                - box-shadow: 0px 4px 10px rgba(0,0,0,0.3)
+                - background-color: rgba(255, 255, 255, 0.05)
+                - backdrop-filter: blur(10px)
+                - transition: all 0.3s ease
+              icon:
+                - color: '#FFD740'
+                - width: 40px
+                - height: 40px
+              name:
+                - font-size: 16px
+                - color: white
+            grid_options:
+              columns: 12
+              rows: 2
+          - type: custom:button-card
+            name: Rooms
+            icon: mdi:bed-double-outline
+            show_name: true
+            show_icon: true
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/rooms
+            hold_action:
+              action: none
+            styles:
+              card:
+                - border-radius: 12px
+                - box-shadow: 0px 4px 10px rgba(0,0,0,0.3)
+                - background-color: rgba(255, 255, 255, 0.05)
+                - backdrop-filter: blur(10px)
+                - transition: all 0.3s ease
+              icon:
+                - color: '#81D4FA'
+                - width: 40px
+                - height: 40px
+              name:
+                - font-size: 16px
+                - color: white
+            grid_options:
+              columns: 12
+              rows: 2
+          - type: custom:button-card
+            name: Multimedia Control
+            icon: mdi:multimedia
+            show_name: true
+            show_icon: true
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/tv
+            hold_action:
+              action: none
+            styles:
+              card:
+                - border-radius: 12px
+                - box-shadow: 0px 4px 10px rgba(0,0,0,0.3)
+                - background-color: rgba(255, 255, 255, 0.05)
+                - backdrop-filter: blur(10px)
+                - transition: all 0.3s ease
+              icon:
+                - color: '#FFAB40'
+                - width: 40px
+                - height: 40px
+              name:
+                - font-size: 16px
+                - color: white
+            grid_options:
+              columns: 12
+              rows: 2
+          - type: custom:button-card
+            name: Timers
+            icon: mdi:timer
+            show_name: true
+            show_icon: true
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/timers
+            hold_action:
+              action: none
+            styles:
+              card:
+                - border-radius: 12px
+                - box-shadow: 0px 4px 10px rgba(0,0,0,0.3)
+                - background-color: rgba(255, 255, 255, 0.05)
+                - backdrop-filter: blur(10px)
+                - transition: all 0.3s ease
+              icon:
+                - color: '#FF6D00'
+                - width: 40px
+                - height: 40px
+              name:
+                - font-size: 16px
+                - color: white
+            grid_options:
+              columns: 12
+              rows: 2
+          - type: custom:button-card
+            name: Lighting Scenes
+            icon: mdi:string-lights
+            show_name: true
+            show_icon: true
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/scenes
+            hold_action:
+              action: none
+            styles:
+              card:
+                - border-radius: 12px
+                - box-shadow: 0px 4px 10px rgba(0,0,0,0.3)
+                - background-color: rgba(255, 255, 255, 0.05)
+                - backdrop-filter: blur(10px)
+                - transition: all 0.3s ease
+              icon:
+                - color: '#FFEA00'
+                - width: 40px
+                - height: 40px
+              name:
+                - font-size: 16px
+                - color: white
+            grid_options:
+              columns: 12
+              rows: 2
+          - type: custom:button-card
+            name: Aircons
+            icon: mdi:air-conditioner
+            show_name: true
+            show_icon: true
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/aircons
+            hold_action:
+              action: none
+            styles:
+              card:
+                - border-radius: 12px
+                - box-shadow: 0px 4px 10px rgba(0,0,0,0.3)
+                - background-color: rgba(255, 255, 255, 0.05)
+                - backdrop-filter: blur(10px)
+                - transition: all 0.3s ease
+              icon:
+                - color: '#4FC3F7'
+                - width: 40px
+                - height: 40px
+              name:
+                - font-size: 16px
+                - color: white
+            grid_options:
+              columns: 12
+              rows: 2
+          - type: custom:button-card
+            name: Garage - Door
+            icon: mdi:garage
+            show_name: true
+            show_icon: true
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/garage-door
+            hold_action:
+              action: none
+            styles:
+              card:
+                - border-radius: 12px
+                - box-shadow: 0px 4px 10px rgba(0,0,0,0.3)
+                - background-color: rgba(255, 255, 255, 0.05)
+                - backdrop-filter: blur(10px)
+                - transition: all 0.3s ease
+              icon:
+                - color: '#8D6E63'
+                - width: 40px
+                - height: 40px
+              name:
+                - font-size: 16px
+                - color: white
+            grid_options:
+              columns: 12
+              rows: 2
+          # Calendar entity below is install-specific - repoint to the new
+          # site's calendar.* entity (or remove this card) on each job.
+          - entities:
+              - entity: calendar.polor_mail_com
+            days_to_show: 6
+            weather:
+              position: date
+              date:
+                show_conditions: true
+                show_high_temp: true
+                show_low_temp: false
+                icon_size: 14px
+                font_size: 12px
+                color: var(--primary-text-color)
+              event:
+                show_conditions: true
+                show_temp: true
+                icon_size: 14px
+                font_size: 12px
+                color: var(--primary-text-color)
+            type: custom:calendar-card-pro
+    cards: []
+    background:
+      opacity: 33
+      alignment: center
+      size: cover
+      repeat: repeat
+      attachment: fixed
+    badges: []
+    header:
+      card:
+        type: markdown
+        content: |
+          {% set hour = now().hour %}
+          {% if hour < 12 %}
+            ## ☀️ Good Morning {{ user }}
+          {% elif hour < 18 %}
+            ## 🌤️ Good Afternoon {{ user }}
+          {% else %}
+            ## 🌙 Good Evening {{ user }}
+          {% endif %}
+
+          ### Welcome To **Smart Home 21 Automation**
+        text_only: true
+    theme: ios-light-mode-red-alternative
+
+  - type: sections
+    max_columns: 4
+    title: Rooms
+    path: rooms
+    sections:
+      - type: grid
+        cards:
+          - camera_view: auto
+            fit_mode: cover
+            type: picture-glance
+            title: Master - Bedroom
+            image: /local/smarthome21/rooms/master-bedroom.jpg
+            entities: []
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/master-bedroom
+            hold_action:
+              action: none
+          - camera_view: auto
+            fit_mode: cover
+            type: picture-glance
+            title: Bedroom1
+            image: /local/smarthome21/rooms/bedroom1.jpg
+            entities: []
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/bedroom1
+          - camera_view: auto
+            fit_mode: cover
+            type: picture-glance
+            title: Bedroom2
+            image: /local/smarthome21/rooms/bedroom2.jpg
+            entities: []
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/bedroom2
+            hold_action:
+              action: none
+          - camera_view: auto
+            fit_mode: cover
+            type: picture-glance
+            title: Bedroom3
+            image: /local/smarthome21/rooms/bedroom3.jpg
+            entities: []
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/bedroom3
+            hold_action:
+              action: none
+          - camera_view: auto
+            fit_mode: cover
+            type: picture-glance
+            title: PJ Lounge
+            image: /local/smarthome21/rooms/pj-lounge.jpg
+            entities: []
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/pjlounge
+            hold_action:
+              action: none
+          - camera_view: auto
+            fit_mode: cover
+            type: picture-glance
+            title: Lounge
+            image: /local/smarthome21/rooms/lounge.jpg
+            entities: []
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/lounge
+            hold_action:
+              action: none
+          - camera_view: auto
+            fit_mode: cover
+            type: picture-glance
+            title: Entertainment
+            image: /local/smarthome21/rooms/entertainment.jpg
+            entities: []
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/entertainment
+            hold_action:
+              action: none
+          - camera_view: auto
+            fit_mode: cover
+            type: picture-glance
+            title: Kitchen
+            image: /local/smarthome21/rooms/kitchen.jpg
+            entities: []
+            tap_action:
+              action: navigate
+              navigation_path: /lovelace/kitchen
+            hold_action:
+              action: none
+    cards: []
+    header:
+      card:
+        type: markdown
+        text_only: true
+        content: '# Rooms'
+    background:
+      opacity: 33
+      alignment: center
+      size: cover
+      repeat: repeat
+      attachment: fixed
+    badges:
+      - type: custom:mushroom-entity-card
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace/my-home
+        entity: sensor.backup_backup_manager_state
+        primary_info: name
+        secondary_info: none
+        icon: mdi:backburger
+        hold_action:
+          action: none
+        double_tap_action:
+          action: none
+        name: BACK
+        grid_options:
+          columns: 4
+          rows: 1
+    theme: Frosted Glass Light
+    subview: true
+
+  - type: sections
+    max_columns: 1
+    title: Lighting Scenes
+    path: lighting-scenes
+    sections:
+      - type: grid
+        cards:
+          - type: custom:mushroom-title-card
+            title_tap_action:
+              action: none
+            subtitle_tap_action:
+              action: none
+            alignment: center
+            title: Goodnight - Scene
+          - type: button
+            entity: automation.trigger_good_night_scene
+            icon: mdi:weather-night
+            name: Good Night
+            show_name: true
+            show_icon: true
+            show_state: false
+            tap_action:
+              action: call-service
+              service: automation.trigger
+              target:
+                entity_id: automation.trigger_good_night_scene
+              data:
+                skip_condition: true
+            hold_action:
+              action: none
+          - type: custom:mushroom-title-card
+            title: Goodbye - Scene
+            title_tap_action:
+              action: none
+            subtitle_tap_action:
+              action: none
+            alignment: center
+          - type: button
+            entity: scene.goodbye
+            icon: mdi:logout
+            show_name: true
+            show_icon: true
+            show_state: false
+            tap_action:
+              action: call-service
+              service: scene.turn_on
+              target:
+                entity_id: scene.goodbye
+            hold_action:
+              action: none
+    cards: []
+    header:
+      card:
+        type: markdown
+        text_only: true
+        content: '# Lighting - Scenes'
+    background:
+      opacity: 80
+      alignment: center
+      size: cover
+      repeat: repeat
+      attachment: fixed
+    badges:
+      - type: custom:mushroom-entity-card
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace/my-home
+        entity: sensor.backup_backup_manager_state
+        primary_info: name
+        secondary_info: none
+        icon: mdi:backburger
+        hold_action:
+          action: none
+        double_tap_action:
+          action: none
+        name: BACK
+        grid_options:
+          columns: 4
+          rows: 1
+    subview: true
+
+  - type: sections
+    max_columns: 4
+    title: Lights
+    path: lights
+    sections:
+      - type: grid
+        square: false
+        columns: 2
+        cards:
+          - type: custom:mushroom-title-card
+            title: LIGHTS - ON
+            alignment: center
+          - type: custom:mushroom-entity-card
+            entity: sensor.downstairs_lights_on
+            tap_action:
+              action: none
+          - type: custom:mushroom-entity-card
+            entity: sensor.upstairs_lights_on_2
+            tap_action:
+              action: none
+          - type: custom:mushroom-title-card
+            title: DOWNSTAIRS - LIGHTS
+            alignment: center
+          - type: custom:mushroom-title-card
+            title: Entrance - Area
+            alignment: center
+          - type: custom:mushroom-entity-card
+            name: Entrance - Chandelier
+            icon: mdi:door-sliding
+            entity: switch.m5_2g_2_switch_1
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-entity-card
+            name: Garage Entrance
+            icon: mdi:stairs-box
+            entity: switch.stairs_landing_3_down_switch_3
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-title-card
+            title: Lounge
+            alignment: center
+          - type: custom:mushroom-entity-card
+            name: Lounge Led
+            icon: mdi:led-strip
+            entity: switch.m5_3g_1_switch_1
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-title-card
+            title: Kitchen
+            alignment: center
+          - type: custom:mushroom-entity-card
+            name: Kitchen - Lights
+            icon: mdi:lightbulb-spot
+            entity: switch.lights
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-entity-card
+            name: Scullery Lights
+            entity: switch.lights_2
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-entity-card
+            name: Kitchen Cupboard Led
+            icon: mdi:lightbulb-spot
+            entity: switch.stairs_landing_3_down_switch_1
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-title-card
+            title: Pantry
+            alignment: center
+          - type: custom:mushroom-entity-card
+            name: Lights
+            icon: mdi:lightbulb-spot
+            entity: switch.m5_1g_2_switch_1
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-title-card
+            title: Domestic Room
+            alignment: center
+          - type: custom:mushroom-entity-card
+            name: Bedroom Lights
+            icon: mdi:lightbulb-spot
+            entity: switch.m5_2g_1_switch_1
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-entity-card
+            name: Bathroom Lights
+            icon: mdi:lightbulb-spot
+            entity: switch.m5_2g_1_switch_2
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-title-card
+            title: Garage Single
+            alignment: center
+          - type: custom:mushroom-entity-card
+            name: Garage Light
+            icon: mdi:lightbulb-spot
+            entity: switch.nspanel1_relay
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-title-card
+            title: Garage Double
+            alignment: center
+          - type: custom:mushroom-entity-card
+            name: Garage - Lights
+            icon: mdi:lightbulb-spot
+            entity: switch.nspanel1_relay_1
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-title-card
+            title: Outside - Lights
+            alignment: center
+          - type: custom:mushroom-entity-card
+            name: Patio - Lights
+            icon: mdi:lightbulb-spot
+            entity: switch.nspanel2_relay_1
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-entity-card
+            name: PJ Balcony
+            icon: mdi:lightbulb-spot
+            entity: switch.m5_2g_4_switch_1
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-entity-card
+            name: PJ Balcony Wall Lights
+            icon: mdi:wall-sconce-flat
+            entity: switch.m5_2g_4_switch_2
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-entity-card
+            name: Entrance Outside
+            icon: mdi:lightbulb-spot
+            entity: switch.m5_3g_1_switch_3
+            tap_action:
+              action: toggle
+      - type: grid
+        square: false
+        columns: 2
+        cards:
+          - type: custom:mushroom-title-card
+            title: UPSTAIRS - LIGHTS
+            alignment: center
+          - type: custom:mushroom-title-card
+            title: Master - Bedroom
+            alignment: center
+          - type: custom:mushroom-entity-card
+            name: Master - Lights
+            icon: mdi:theater
+            entity: switch.nspanel3_relay_1
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-entity-card
+            name: Window - Lights
+            icon: mdi:lightbulb-spot
+            entity: switch.m5_3g_2_switch_3
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-entity-card
+            name: Dresser Lights
+            entity: switch.m5_3g_2_switch_2
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-entity-card
+            name: Master - Bathroom
+            icon: mdi:bathtub
+            entity: switch.m5_3g_2_switch_1
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-title-card
+            title: Bedroom 1
+            alignment: center
+          - type: custom:mushroom-entity-card
+            name: Lights
+            icon: mdi:bed
+            entity: switch.m5_2g_3_switch_1
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-entity-card
+            name: Outside Lights
+            icon: cil:light-switch
+            entity: switch.m5_2g_3_switch_2
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-entity-card
+            name: Bathroom Lights
+            icon: mdi:bathtub
+            entity: switch.lights_3
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-title-card
+            title: Bedroom 2
+            alignment: center
+          - type: custom:mushroom-entity-card
+            name: Lights
+            icon: mdi:bed
+            entity: switch.m5_2g_5_switch_1
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-entity-card
+            name: Bathroom Lights
+            icon: cil:light-switch
+            entity: switch.m5_2g_5_switch_2
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-title-card
+            title: Bedroom 3
+            alignment: center
+          - type: custom:mushroom-entity-card
+            name: Lights
+            icon: cil:light-switch
+            entity: switch.m5_3g_5_switch_1
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-entity-card
+            name: Outside LED Strip
+            icon: mdi:led-strip-variant
+            entity: switch.m5_3g_5_switch_3
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-entity-card
+            name: Bathroom Lights
+            entity: switch.m5_1g_14_switch_1
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-title-card
+            title: Study
+            alignment: center
+          - type: custom:mushroom-entity-card
+            name: Lights
+            entity: switch.m5_1g_15_switch_1
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-title-card
+            title: Pajama Lounge
+            alignment: center
+          - type: custom:mushroom-entity-card
+            name: Lights
+            entity: switch.m5_2g_2_switch_2
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-entity-card
+            name: Passage Lights
+            entity: switch.m5_3g_3_switch_1
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-entity-card
+            name: Linen Room Lights
+            entity: switch.m5_3g_3_switch_3
+            tap_action:
+              action: toggle
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-template-card
+                primary: ALL LIGHTS ON
+                icon: mdi:lightbulb-on
+                tap_action:
+                  action: call-service
+                  confirmation:
+                    text: Turn ON all lights in the house?
+                  service: scene.turn_on
+                  target:
+                    entity_id: scene.all_lights_on
+              - type: custom:mushroom-template-card
+                primary: ALL LIGHTS OFF
+                icon: mdi:lightbulb-off
+                tap_action:
+                  action: call-service
+                  confirmation:
+                    text: Turn OFF all lights in the house?
+                  service: scene.turn_on
+                  target:
+                    entity_id: scene.all_lights_off
+    cards: []
+    badges:
+      - type: custom:mushroom-entity-card
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace/my-home
+        entity: sensor.backup_backup_manager_state
+        primary_info: name
+        secondary_info: none
+        icon: mdi:backburger
+        hold_action:
+          action: none
+        double_tap_action:
+          action: none
+        name: BACK
+        grid_options:
+          columns: 4
+          rows: 1
+    header:
+      card:
+        type: markdown
+        content: |
+          # HOME - LIGHTS
+        text_only: true
+    background:
+      opacity: 60
+      alignment: center
+      size: cover
+      repeat: repeat
+      attachment: fixed
+    theme: Google Theme
+    subview: true
+
+  - type: sections
+    max_columns: 4
+    title: Master Bedroom
+    path: master-bedroom
+    sections:
+      - type: grid
+        cards:
+          - type: custom:mushroom-title-card
+            title: UPSTAIRS - LIGHTS
+            alignment: center
+          - type: custom:mushroom-title-card
+            title: Master - Bedroom
+            alignment: center
+          - type: custom:mushroom-entity-card
+            name: Master - Lights
+            icon: mdi:theater
+            entity: switch.nspanel3_relay_1
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-entity-card
+            name: Window - Lights
+            icon: mdi:lightbulb-spot
+            entity: switch.m5_3g_2_switch_3
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-entity-card
+            name: Dresser Lights
+            entity: switch.m5_3g_2_switch_2
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-title-card
+            title: Bathroom
+            alignment: center
+          - type: custom:mushroom-entity-card
+            name: Master - Bathroom
+            icon: mdi:bathtub
+            entity: switch.m5_3g_2_switch_1
+            tap_action:
+              action: toggle
+    cards: []
+    badges:
+      - type: custom:mushroom-entity-card
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace/rooms
+        name: BACK
+        entity: sensor.backup_backup_manager_state
+        primary_info: name
+        secondary_info: none
+        icon: mdi:backburger
+        hold_action:
+          action: none
+        double_tap_action:
+          action: none
+        grid_options:
+          columns: 4
+          rows: 1
+    theme: Frosted Glass Lite
+    subview: true
+
+  - type: sections
+    max_columns: 4
+    title: 'Kitchen '
+    path: kitchen
+    sections:
+      - type: grid
+        cards:
+          - type: custom:mushroom-title-card
+            title: Kitchen
+            alignment: center
+          - type: custom:mushroom-entity-card
+            name: Kitchen Cupboard Led
+            icon: mdi:lightbulb-spot
+            entity: switch.stairs_landing_3_down_switch_1
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-entity-card
+            name: Kitchen - Lights
+            icon: mdi:lightbulb-spot
+            entity: switch.lights
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-entity-card
+            name: Scullery Lights
+            icon: mdi:lightbulb-outline
+            entity: switch.lights_2
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-title-card
+            title: Pantry
+            alignment: center
+          - type: custom:mushroom-entity-card
+            name: Lights
+            icon: mdi:lightbulb-spot
+            entity: switch.m5_1g_2_switch_1
+            tap_action:
+              action: toggle
+    cards: []
+    badges:
+      - type: custom:mushroom-entity-card
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace/rooms
+        name: Back
+        entity: sensor.backup_backup_manager_state
+        primary_info: name
+        secondary_info: none
+        icon: mdi:backburger
+        hold_action:
+          action: none
+        double_tap_action:
+          action: none
+        grid_options:
+          columns: 4
+          rows: 1
+    theme: Frosted Glass Lite
+    subview: true
+
+  - type: sections
+    max_columns: 1
+    title: Garage Door
+    path: garage-door
+    sections:
+      - type: grid
+        cards:
+          - type: custom:mushroom-title-card
+            title: Double Garage Door
+            title_tap_action:
+              action: none
+            subtitle_tap_action:
+              action: none
+            alignment: center
+          - type: custom:mushroom-template-card
+            entity: cover.double_garage_door
+            primary: DOUBLE GARAGE DOOR
+            secondary: |
+              {% if is_state('cover.double_garage_door','open') %}
+                OPEN
+              {% else %}
+                CLOSED
+              {% endif %}
+            icon: mdi:garage
+            tap_action:
+              action: call-service
+              service: cover.toggle
+              target:
+                entity_id: cover.double_garage_door
+            hold_action:
+              action: more-info
+            grid_options:
+              columns: 12
+              rows: 2
+            vertical: true
+            features_position: bottom
+            card_mod:
+              style: |
+                /* ================= BASE CARD ================= */
+                ha-card {
+                  position: relative;
+                  overflow: hidden;
+                  height: 190px;
+                  border-radius: 26px;
+                  background: linear-gradient(180deg,#e5e5e5,#bdbdbd);
+                  box-shadow: 0 18px 40px rgba(0,0,0,0.45);
+                  cursor: pointer;
+                }
+                ha-card > * {
+                  position: relative;
+                  z-index: 5;
+                  pointer-events: none;
+                }
+                /* ================= GARAGE DOOR PANEL ================= */
+                ha-card::before {
+                  content: "";
+                  position: absolute;
+                  inset: 0;
+                  z-index: 1;
+
+                  background:
+                    repeating-linear-gradient(
+                      to bottom,
+                      rgba(255,255,255,0.18),
+                      rgba(255,255,255,0.18) 2px,
+                      transparent 2px,
+                      transparent 26px
+                    ),
+                    linear-gradient(
+                      180deg,
+                      {% if is_state('cover.double_garage_door','open') %}
+                        #1fa463,
+                        #0f5a34
+                      {% else %}
+                        #c62828,
+                        #5a0000
+                      {% endif %}
+                    );
+
+                  transform:
+                    {% if is_state('cover.double_garage_door','open') %}
+                      translateY(-100%)
+                    {% else %}
+                      translateY(0)
+                    {% endif %};
+                  transition: transform 1.3s cubic-bezier(.4,0,.2,1);
+
+                  box-shadow:
+                    inset 0 -14px 22px rgba(0,0,0,0.45),
+                    0 8px 22px rgba(0,0,0,0.55),
+                    0 14px 28px rgba(0,0,0,0.35);
+
+                  border-bottom-left-radius: 6px;
+                  border-bottom-right-radius: 6px;
+                }
+                /* ================= STATUS LIGHT ================= */
+                ha-card::after {
+                  content: "";
+                  position: absolute;
+                  left: 50%;
+                  transform: translateX(-50%);
+                  bottom: 14px;
+                  width: 72px;
+                  height: 6px;
+                  border-radius: 6px;
+                  z-index: 4;
+                  background:
+                    {% if is_state('cover.double_garage_door','open') %}
+                      linear-gradient(90deg,#00e676,#00c853)
+                    {% else %}
+                      linear-gradient(90deg,#ff5252,#b71c1c)
+                    {% endif %};
+                  box-shadow:
+                    {% if is_state('cover.double_garage_door','open') %}
+                      0 0 18px rgba(0,230,118,0.9)
+                    {% else %}
+                      0 0 16px rgba(255,82,82,0.85)
+                    {% endif %};
+                }
+                /* ================= ICON ================= */
+                mushroom-shape-icon::part(icon) {
+                  --mdc-icon-size: 46px;
+                  color: white;
+                  opacity: 0.95;
+                  margin-top: 16px;
+                  text-shadow: 0 0 10px rgba(0,0,0,0.6);
+
+                  {% if is_state('cover.double_garage_door','open') %}
+                    animation: garage-pulse 1.6s ease-in-out infinite;
+                    animation-delay: 3s;
+                  {% endif %}
+                }
+                @keyframes garage-pulse {
+                  0% { filter: drop-shadow(0 0 0 rgba(0,230,118,0)); }
+                  50% { filter: drop-shadow(0 0 26px rgba(0,230,118,1)); }
+                  100% { filter: drop-shadow(0 0 0 rgba(0,230,118,0)); }
+                }
+                /* ================= TEXT ================= */
+                .primary {
+                  font-size: 22px;
+                  font-weight: 900;
+                  letter-spacing: 1px;
+                  color: white;
+                  text-shadow: 0 3px 10px rgba(0,0,0,0.75);
+                }
+                .secondary {
+                  margin-top: 4px;
+                  font-size: 13px;
+                  letter-spacing: 4px;
+                  font-weight: 800;
+                  color:
+                    {% if is_state('cover.double_garage_door','open') %}
+                      #00e676
+                    {% else %}
+                      #ff8a80
+                    {% endif %};
+                  text-shadow: 0 0 8px rgba(0,0,0,0.6);
+                }
+          - type: custom:mushroom-title-card
+            title: Single Garage Door
+            title_tap_action:
+              action: none
+            subtitle_tap_action:
+              action: none
+            alignment: center
+          - type: custom:mushroom-template-card
+            entity: cover.single_garage_door
+            primary: SINGLE GARAGE DOOR
+            secondary: |
+              {% if is_state('cover.single_garage_door','open') %}
+                OPEN
+              {% else %}
+                CLOSED
+              {% endif %}
+            icon: mdi:garage
+            tap_action:
+              action: call-service
+              service: cover.toggle
+              target:
+                entity_id: cover.single_garage_door
+            hold_action:
+              action: more-info
+            grid_options:
+              columns: 12
+              rows: 2
+            vertical: true
+            features_position: bottom
+            card_mod:
+              style: |
+                /* ================= BASE CARD ================= */
+                ha-card {
+                  position: relative;
+                  overflow: hidden;
+                  height: 190px;
+                  border-radius: 26px;
+                  background: linear-gradient(180deg,#e5e5e5,#bdbdbd);
+                  box-shadow: 0 18px 40px rgba(0,0,0,0.45);
+                  cursor: pointer;
+                }
+                ha-card > * {
+                  position: relative;
+                  z-index: 5;
+                  pointer-events: none;
+                }
+                /* ================= GARAGE DOOR PANEL ================= */
+                ha-card::before {
+                  content: "";
+                  position: absolute;
+                  inset: 0;
+                  z-index: 1;
+
+                  background:
+                    repeating-linear-gradient(
+                      to bottom,
+                      rgba(255,255,255,0.18),
+                      rgba(255,255,255,0.18) 2px,
+                      transparent 2px,
+                      transparent 26px
+                    ),
+                    linear-gradient(
+                      180deg,
+                      {% if is_state('cover.single_garage_door','open') %}
+                        #1fa463,
+                        #0f5a34
+                      {% else %}
+                        #c62828,
+                        #5a0000
+                      {% endif %}
+                    );
+
+                  transform:
+                    {% if is_state('cover.single_garage_door','open') %}
+                      translateY(-100%)
+                    {% else %}
+                      translateY(0)
+                    {% endif %};
+                  transition: transform 1.3s cubic-bezier(.4,0,.2,1);
+
+                  box-shadow:
+                    inset 0 -14px 22px rgba(0,0,0,0.45),
+                    0 8px 22px rgba(0,0,0,0.55),
+                    0 14px 28px rgba(0,0,0,0.35);
+
+                  border-bottom-left-radius: 6px;
+                  border-bottom-right-radius: 6px;
+                }
+                /* ================= STATUS LIGHT ================= */
+                ha-card::after {
+                  content: "";
+                  position: absolute;
+                  left: 50%;
+                  transform: translateX(-50%);
+                  bottom: 14px;
+                  width: 72px;
+                  height: 6px;
+                  border-radius: 6px;
+                  z-index: 4;
+                  background:
+                    {% if is_state('cover.single_garage_door','open') %}
+                      linear-gradient(90deg,#00e676,#00c853)
+                    {% else %}
+                      linear-gradient(90deg,#ff5252,#b71c1c)
+                    {% endif %};
+                  box-shadow:
+                    {% if is_state('cover.single_garage_door','open') %}
+                      0 0 18px rgba(0,230,118,0.9)
+                    {% else %}
+                      0 0 16px rgba(255,82,82,0.85)
+                    {% endif %};
+                }
+                /* ================= ICON ================= */
+                mushroom-shape-icon::part(icon) {
+                  --mdc-icon-size: 46px;
+                  color: white;
+                  opacity: 0.95;
+                  margin-top: 16px;
+                  text-shadow: 0 0 10px rgba(0,0,0,0.6);
+
+                  {% if is_state('cover.single_garage_door','open') %}
+                    animation: garage-pulse 1.6s ease-in-out infinite;
+                    animation-delay: 3s;
+                  {% endif %}
+                }
+                @keyframes garage-pulse {
+                  0% { filter: drop-shadow(0 0 0 rgba(0,230,118,0)); }
+                  50% { filter: drop-shadow(0 0 26px rgba(0,230,118,1)); }
+                  100% { filter: drop-shadow(0 0 0 rgba(0,230,118,0)); }
+                }
+                /* ================= TEXT ================= */
+                .primary {
+                  font-size: 22px;
+                  font-weight: 900;
+                  letter-spacing: 1px;
+                  color: white;
+                  text-shadow: 0 3px 10px rgba(0,0,0,0.75);
+                }
+                .secondary {
+                  margin-top: 4px;
+                  font-size: 13px;
+                  letter-spacing: 4px;
+                  font-weight: 800;
+                  color:
+                    {% if is_state('cover.single_garage_door','open') %}
+                      #00e676
+                    {% else %}
+                      #ff8a80
+                    {% endif %};
+                  text-shadow: 0 0 8px rgba(0,0,0,0.6);
+                }
+    badges:
+      - type: custom:mushroom-entity-card
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace/my-home
+        entity: sensor.backup_backup_manager_state
+        primary_info: name
+        secondary_info: none
+        icon: mdi:backburger
+        hold_action:
+          action: none
+        double_tap_action:
+          action: none
+        name: BACK
+        grid_options:
+          columns: 4
+          rows: 1
+    header:
+      card:
+        type: markdown
+        text_only: true
+        content: '# GARAGE - DOOR'
+    background:
+      opacity: 50
+      alignment: center
+      size: cover
+      repeat: repeat
+      attachment: fixed
+    cards: []
+    theme: Frosted Glass Dark Lite
+    subview: true
+
+  - type: sections
+    max_columns: 4
+    title: TIMERS
+    path: timers
+    sections:
+      - type: grid
+        cards:
+          - type: entities
+            title: 🚿 GEYSER TIMER
+            show_header_toggle: false
+            entities:
+              - entity: switch.geyser_schedule_enabled
+                name: Geyser Timer
+                secondary_info: state
+              - type: custom:fold-entity-row
+                head:
+                  type: section
+                  label: Run Times
+                entities:
+                  - entity: time.geyser_start_time
+                    name: Start Time
+                  - entity: time.geyser_end_time
+                    name: Stop Time
+                  - entity: time.geyser_second_start_time
+                    name: Second Start
+                  - entity: time.geyser_second_end_time
+                    name: Second End
+              - type: custom:fold-entity-row
+                head:
+                  type: section
+                  label: Days
+                entities:
+                  - entity: switch.geyser_mon
+                    name: Monday
+                  - entity: switch.geyser_tue
+                    name: Tuesday
+                  - entity: switch.geyser_wed
+                    name: Wednesday
+                  - entity: switch.geyser_thu
+                    name: Thursday
+                  - entity: switch.geyser_fri
+                    name: Friday
+                  - entity: switch.geyser_sat
+                    name: Saturday
+                  - entity: switch.geyser_sun
+                    name: Sunday
+          - type: entities
+            title: 🚿 GEYSER 2 TIMER
+            show_header_toggle: false
+            entities:
+              - entity: switch.geyser_2_schedule_enabled
+                name: Geyser 2 Timer
+                secondary_info: state
+              - type: custom:fold-entity-row
+                head:
+                  type: section
+                  label: Run Times
+                entities:
+                  - entity: time.geyser_2_start_time
+                    name: Start Time
+                  - entity: time.geyser_2_end_time
+                    name: Stop Time
+                  - entity: time.geyser_2_second_start_time
+                    name: Second Start
+                  - entity: time.geyser_2_second_end_time
+                    name: Second End
+              - type: custom:fold-entity-row
+                head:
+                  type: section
+                  label: Days
+                entities:
+                  - entity: switch.geyser_2_mon
+                    name: Monday
+                  - entity: switch.geyser_2_tue
+                    name: Tuesday
+                  - entity: switch.geyser_2_wed
+                    name: Wednesday
+                  - entity: switch.geyser_2_thu
+                    name: Thursday
+                  - entity: switch.geyser_2_fri
+                    name: Friday
+                  - entity: switch.geyser_2_sat
+                    name: Saturday
+                  - entity: switch.geyser_2_sun
+                    name: Sunday
+    badges:
+      - type: custom:mushroom-entity-card
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace/my-home
+        entity: sensor.backup_backup_manager_state
+        primary_info: name
+        secondary_info: none
+        icon: mdi:backburger
+        hold_action:
+          action: none
+        double_tap_action:
+          action: none
+        name: BACK
+        grid_options:
+          columns: 4
+          rows: 1
+    theme: Frosted Glass Light
+    cards: []
+    subview: true
+
+  - type: sections
+    max_columns: 4
+    title: bedroom1
+    path: bedroom1
+    sections:
+      - type: grid
+        cards:
+          - type: custom:mushroom-title-card
+            title: Bedroom 1
+            alignment: center
+          - type: custom:mushroom-entity-card
+            name: Lights
+            icon: mdi:bed
+            entity: switch.m5_2g_3_switch_1
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-entity-card
+            name: Outside Lights
+            icon: cil:light-switch
+            entity: switch.m5_2g_3_switch_2
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-title-card
+            title: Bathroom
+            alignment: center
+          - type: custom:mushroom-entity-card
+            name: Lights
+            icon: mdi:bathtub
+            entity: switch.lights_3
+            tap_action:
+              action: toggle
+    badges:
+      - type: custom:mushroom-entity-card
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace/rooms
+        name: BACK
+        entity: sensor.backup_backup_manager_state
+        primary_info: name
+        secondary_info: none
+        icon: mdi:backburger
+        hold_action:
+          action: none
+        double_tap_action:
+          action: none
+        grid_options:
+          columns: 4
+          rows: 1
+    theme: Frosted Glass Light
+    cards: []
+    subview: true
+
+  - type: sections
+    max_columns: 4
+    title: bedroom2
+    path: bedroom2
+    sections:
+      - type: grid
+        cards:
+          - type: custom:mushroom-title-card
+            title: Bedroom 2
+            alignment: center
+          - type: custom:mushroom-entity-card
+            name: Lights
+            icon: mdi:bed
+            entity: switch.m5_2g_5_switch_1
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-title-card
+            title: Bathroom
+            alignment: center
+          - type: custom:mushroom-entity-card
+            name: Bathroom Lights
+            icon: cil:light-switch
+            entity: switch.m5_2g_5_switch_2
+            tap_action:
+              action: toggle
+    badges:
+      - type: custom:mushroom-entity-card
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace/rooms
+        name: BACK
+        entity: sensor.backup_backup_manager_state
+        primary_info: name
+        secondary_info: none
+        icon: mdi:backburger
+        hold_action:
+          action: none
+        double_tap_action:
+          action: none
+        grid_options:
+          columns: 4
+          rows: 1
+    theme: Frosted Glass Light Lite
+    cards: []
+    subview: true
+
+  - type: sections
+    max_columns: 4
+    title: bedroom3
+    path: bedroom3
+    sections:
+      - type: grid
+        cards:
+          - type: custom:mushroom-title-card
+            title: Bedroom 3
+            alignment: center
+          - type: custom:mushroom-entity-card
+            name: Lights
+            icon: cil:light-switch
+            entity: switch.m5_3g_5_switch_1
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-entity-card
+            name: LED Strip
+            icon: mdi:led-strip-variant
+            entity: switch.m5_3g_5_switch_3
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-title-card
+            title: Bathroom
+            alignment: center
+          - type: custom:mushroom-entity-card
+            name: Lights
+            entity: switch.m5_1g_14_switch_1
+            tap_action:
+              action: toggle
+    badges:
+      - type: custom:mushroom-entity-card
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace/rooms
+        name: BACK
+        entity: sensor.backup_backup_manager_state
+        primary_info: name
+        secondary_info: none
+        icon: mdi:backburger
+        hold_action:
+          action: none
+        double_tap_action:
+          action: none
+        grid_options:
+          columns: 4
+          rows: 1
+    theme: Frosted Glass Light Lite
+    cards: []
+    subview: true
+
+  - type: sections
+    max_columns: 4
+    title: pjlounge
+    path: pjlounge
+    sections:
+      - type: grid
+        cards:
+          - type: custom:mushroom-title-card
+            title: Pajama Lounge
+            alignment: center
+          - type: custom:mushroom-entity-card
+            name: Lights
+            icon: mdi:lightbulb-spot
+            entity: switch.m5_2g_2_switch_2
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-entity-card
+            name: Passage Lights
+            icon: mdi:lightbulb-outline
+            entity: switch.m5_3g_3_switch_1
+            tap_action:
+              action: toggle
+          - type: custom:mushroom-entity-card
+            name: Linen Room Lights
+            icon: mdi:lightbulb-multiple-outline
+            entity: switch.m5_3g_3_switch_3
+            tap_action:
+              action: toggle
+    badges:
+      - type: custom:mushroom-entity-card
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace/rooms
+        name: BACK
+        entity: sensor.backup_backup_manager_state
+        primary_info: name
+        secondary_info: none
+        icon: mdi:backburger
+        hold_action:
+          action: none
+        double_tap_action:
+          action: none
+        grid_options:
+          columns: 4
+          rows: 1
+    theme: Frosted Glass Light Lite
+    cards: []
+    subview: true
+
+  - type: sections
+    max_columns: 4
+    title: 'lounge '
+    path: lounge
+    sections:
+      - type: grid
+        cards:
+          - type: custom:mushroom-title-card
+            title: Lounge
+            alignment: center
+          - type: custom:mushroom-entity-card
+            name: Lounge Lights
+            icon: mdi:led-strip
+            entity: switch.m5_3g_1_switch_1
+            tap_action:
+              action: toggle
+    badges:
+      - type: custom:mushroom-entity-card
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace/rooms
+        name: BACK
+        entity: sensor.backup_backup_manager_state
+        primary_info: name
+        secondary_info: none
+        icon: mdi:backburger
+        hold_action:
+          action: none
+        double_tap_action:
+          action: none
+        grid_options:
+          columns: 4
+          rows: 1
+    theme: Frosted Glass Light Lite
+    cards: []
+    subview: true
+
+  - type: sections
+    max_columns: 4
+    title: entertainment
+    path: entertainment
+    sections:
+      - type: grid
+        cards:
+          - type: custom:mushroom-title-card
+            title: Entertainment / Braai
+            subtitle_tap_action:
+              action: none
+            title_tap_action:
+              action: none
+            alignment: center
+          - type: custom:mushroom-entity-card
+            name: Patio - Lights
+            icon: mdi:lightbulb-spot
+            entity: switch.nspanel2_relay_1
+            tap_action:
+              action: toggle
+    badges:
+      - type: custom:mushroom-entity-card
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace/rooms
+        name: BACK
+        entity: sensor.backup_backup_manager_state
+        primary_info: name
+        secondary_info: none
+        icon: mdi:backburger
+        hold_action:
+          action: none
+        double_tap_action:
+          action: none
+        grid_options:
+          columns: 4
+          rows: 1
+    theme: Frosted Glass Light
+    cards: []
+    subview: true
+
+  - type: sections
+    max_columns: 4
+    title: Aircons
+    path: aircons
+    sections:
+      - type: grid
+        cards:
+          - type: vertical-stack
+            cards:
+              - type: markdown
+                content: |
+                  # ❄️  Climate Control
+                  Elegant whole-home air conditioning dashboard
+              - type: grid
+                columns: 2
+                square: false
+                cards:
+                  - type: custom:mushroom-climate-card
+                    entity: climate.gree_12d4
+                    name: Main Bedroom
+                    icon: mdi:bed-king-outline
+                    layout: vertical
+                    fill_container: true
+                    primary_info: name
+                    secondary_info: state
+                    collapsible_controls: true
+                    show_temperature_control: true
+                    hvac_modes:
+                      - cool
+                      - heat
+                      - dry
+                      - auto
+                      - fan_only
+                      - 'off'
+                    card_mod:
+                      style: |
+                        ha-card {
+                          border-radius: 22px;
+                          padding: 10px;
+                          background: linear-gradient(145deg, #ffffff, #f5f7fa);
+                          border: 1px solid rgba(0,0,0,0.06);
+                          box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+                        }
+                  - type: custom:mushroom-climate-card
+                    entity: climate.gree_fffe
+                    name: Main Bathroom
+                    icon: mdi:bathtub-outline
+                    layout: vertical
+                    fill_container: true
+                    primary_info: name
+                    secondary_info: state
+                    collapsible_controls: true
+                    show_temperature_control: true
+                    hvac_modes:
+                      - cool
+                      - heat
+                      - dry
+                      - auto
+                      - fan_only
+                      - 'off'
+                    card_mod:
+                      style: |
+                        ha-card {
+                          border-radius: 22px;
+                          padding: 10px;
+                          background: linear-gradient(145deg, #ffffff, #f5f7fa);
+                          border: 1px solid rgba(0,0,0,0.06);
+                          box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+                        }
+                  - type: custom:mushroom-climate-card
+                    entity: climate.gree_63e0
+                    name: PJ Lounge
+                    icon: mdi:sofa-outline
+                    layout: vertical
+                    fill_container: true
+                    primary_info: name
+                    secondary_info: state
+                    collapsible_controls: true
+                    show_temperature_control: true
+                    hvac_modes:
+                      - cool
+                      - heat
+                      - dry
+                      - auto
+                      - fan_only
+                      - 'off'
+                    card_mod:
+                      style: |
+                        ha-card {
+                          border-radius: 22px;
+                          padding: 10px;
+                          background: linear-gradient(145deg, #ffffff, #f5f7fa);
+                          border: 1px solid rgba(0,0,0,0.06);
+                          box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+                        }
+                  - type: custom:mushroom-climate-card
+                    entity: climate.gree_e0dc
+                    name: Bedroom1
+                    icon: mdi:bed-outline
+                    layout: vertical
+                    fill_container: true
+                    primary_info: name
+                    secondary_info: state
+                    collapsible_controls: true
+                    show_temperature_control: true
+                    hvac_modes:
+                      - cool
+                      - heat
+                      - dry
+                      - auto
+                      - fan_only
+                      - 'off'
+                    card_mod:
+                      style: |
+                        ha-card {
+                          border-radius: 22px;
+                          padding: 10px;
+                          background: linear-gradient(145deg, #ffffff, #f5f7fa);
+                          border: 1px solid rgba(0,0,0,0.06);
+                          box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+                        }
+                  - type: custom:mushroom-climate-card
+                    entity: climate.gree_808a
+                    name: Bedroom2
+                    icon: mdi:bed-outline
+                    layout: vertical
+                    fill_container: true
+                    primary_info: name
+                    secondary_info: state
+                    collapsible_controls: true
+                    show_temperature_control: true
+                    hvac_modes:
+                      - cool
+                      - heat
+                      - dry
+                      - auto
+                      - fan_only
+                      - 'off'
+                    card_mod:
+                      style: |
+                        ha-card {
+                          border-radius: 22px;
+                          padding: 10px;
+                          background: linear-gradient(145deg, #ffffff, #f5f7fa);
+                          border: 1px solid rgba(0,0,0,0.06);
+                          box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+                        }
+                  - type: custom:mushroom-climate-card
+                    entity: climate.gree_6645
+                    name: Bedroom3
+                    icon: mdi:bed-outline
+                    layout: vertical
+                    fill_container: true
+                    primary_info: name
+                    secondary_info: state
+                    collapsible_controls: true
+                    show_temperature_control: true
+                    hvac_modes:
+                      - cool
+                      - heat
+                      - dry
+                      - auto
+                      - fan_only
+                      - 'off'
+                    card_mod:
+                      style: |
+                        ha-card {
+                          border-radius: 22px;
+                          padding: 10px;
+                          background: linear-gradient(145deg, #ffffff, #f5f7fa);
+                          border: 1px solid rgba(0,0,0,0.06);
+                          box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+                        }
+                  - type: custom:mushroom-climate-card
+                    entity: climate.entertainment_ac
+                    name: Entertainment Area
+                    icon: mdi:television-ambient-light
+                    layout: vertical
+                    fill_container: true
+                    primary_info: name
+                    secondary_info: state
+                    collapsible_controls: true
+                    show_temperature_control: true
+                    hvac_modes:
+                      - cool
+                      - heat
+                      - dry
+                      - auto
+                      - fan_only
+                      - 'off'
+                    card_mod:
+                      style: |
+                        ha-card {
+                          border-radius: 22px;
+                          padding: 10px;
+                          background: linear-gradient(145deg, #ffffff, #f5f7fa);
+                          border: 1px solid rgba(0,0,0,0.06);
+                          box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+                        }
+    badges:
+      - type: custom:mushroom-entity-card
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace/my-home
+        entity: sensor.backup_backup_manager_state
+        primary_info: name
+        secondary_info: none
+        icon: mdi:backburger
+        hold_action:
+          action: none
+        double_tap_action:
+          action: none
+        name: BACK
+        grid_options:
+          columns: 4
+          rows: 1
+    subview: true
+    cards: []
+
+  # ---------------------------------------------------------------------------
+  # "extra" = alternative glowing-card version of the Lights page.
+  # Not linked from navigation; reachable via /lovelace/extra. Kept as-is.
+  # ---------------------------------------------------------------------------
+  - type: sections
+    max_columns: 4
+    title: extra
+    path: extra
+    sections:
+      - type: grid
+        square: false
+        columns: 2
+        cards:
+          - type: custom:mushroom-title-card
+            title: LIGHTS - ON
+            subtitle_tap_action:
+              action: none
+            title_tap_action:
+              action: none
+            alignment: center
+            card_mod:
+              style: |
+                .title { font-weight: 999 !important; }
+          - type: custom:mushroom-entity-card
+            entity: sensor.downstairs_lights_on
+            tap_action:
+              action: none
+            icon_color: yellow
+            card_mod:
+              style: >
+                ha-card { border-radius: 22px; backdrop-filter: blur(12px);
+                background: linear-gradient(145deg, rgba(255,255,255,0.06),
+                rgba(0,0,0,0.35)); box-shadow: 0 8px 24px rgba(0,0,0,0.45); }
+          - type: custom:mushroom-entity-card
+            entity: sensor.upstairs_lights_on_2
+            tap_action:
+              action: none
+            icon_color: yellow
+            card_mod:
+              style: >
+                ha-card { border-radius: 22px; backdrop-filter: blur(12px);
+                background: linear-gradient(145deg, rgba(255,255,255,0.06),
+                rgba(0,0,0,0.35)); box-shadow: 0 8px 24px rgba(0,0,0,0.45); }
+          - type: custom:mushroom-title-card
+            title: DOWNSTAIRS - LIGHTS
+            subtitle_tap_action:
+              action: none
+            title_tap_action:
+              action: none
+            alignment: center
+            card_mod:
+              style: |
+                .title { font-weight: 999 !important; }
+          - type: custom:mushroom-title-card
+            title: Entrance - Area
+            subtitle_tap_action:
+              action: none
+            title_tap_action:
+              action: none
+            alignment: center
+          - type: custom:mushroom-entity-card
+            name: Entrance - Chandelier
+            icon: mdi:door-sliding
+            entity: switch.m5_2g_2_switch_1
+            tap_action:
+              action: toggle
+            card_mod:
+              style: |
+                ha-card {
+                  border-radius: 22px; backdrop-filter: blur(12px);
+                  background:
+                    {% if is_state('switch.m5_2g_2_switch_1','on') %}
+                      linear-gradient(145deg, rgba(0,255,0,0.35), rgba(0,0,0,0.65));
+                    {% else %}
+                      linear-gradient(145deg, rgba(255,255,255,0.06), rgba(0,0,0,0.35));
+                    {% endif %};
+                  box-shadow:
+                    {% if is_state('switch.m5_2g_2_switch_1','on') %}
+                      0 0 40px rgba(0,255,0,1), 0 20px 60px rgba(0,255,0,0.9);
+                    {% else %}
+                      0 8px 24px rgba(0,0,0,0.45);
+                    {% endif %};
+                }
+          - type: custom:mushroom-entity-card
+            name: Garage Entrance
+            icon: mdi:stairs-box
+            entity: switch.stairs_landing_3_down_switch_3
+            tap_action:
+              action: toggle
+            card_mod:
+              style: |
+                ha-card {
+                  border-radius: 22px; backdrop-filter: blur(12px);
+                  background:
+                    {% if is_state('switch.stairs_landing_3_down_switch_3','on') %}
+                      linear-gradient(145deg, rgba(0,255,0,0.35), rgba(0,0,0,0.65));
+                    {% else %}
+                      linear-gradient(145deg, rgba(255,255,255,0.06), rgba(0,0,0,0.35));
+                    {% endif %};
+                  box-shadow:
+                    {% if is_state('switch.stairs_landing_3_down_switch_3','on') %}
+                      0 0 40px rgba(0,255,0,1), 0 20px 60px rgba(0,255,0,0.9);
+                    {% else %}
+                      0 8px 24px rgba(0,0,0,0.45);
+                    {% endif %};
+                }
+          - type: custom:mushroom-title-card
+            title: Lounge
+            subtitle_tap_action:
+              action: none
+            title_tap_action:
+              action: none
+            alignment: center
+          - type: custom:mushroom-entity-card
+            name: Lounge Led
+            icon: mdi:led-strip
+            entity: switch.m5_3g_1_switch_1
+            tap_action:
+              action: toggle
+            card_mod:
+              style: |
+                ha-card {
+                  border-radius: 22px; backdrop-filter: blur(12px);
+                  background:
+                    {% if is_state('switch.m5_3g_1_switch_1','on') %}
+                      linear-gradient(145deg, rgba(0,255,0,0.35), rgba(0,0,0,0.65));
+                    {% else %}
+                      linear-gradient(145deg, rgba(255,255,255,0.06), rgba(0,0,0,0.35));
+                    {% endif %};
+                  box-shadow:
+                    {% if is_state('switch.m5_3g_1_switch_1','on') %}
+                      0 0 40px rgba(0,255,0,1), 0 20px 60px rgba(0,255,0,0.9);
+                    {% else %}
+                      0 8px 24px rgba(0,0,0,0.45);
+                    {% endif %};
+                }
+          - type: custom:mushroom-title-card
+            title: Kitchen
+            subtitle_tap_action:
+              action: none
+            title_tap_action:
+              action: none
+            alignment: center
+          - type: custom:mushroom-entity-card
+            name: Kitchen - Lights
+            icon: mdi:lightbulb-spot
+            entity: switch.lights
+            tap_action:
+              action: toggle
+            card_mod:
+              style: |
+                ha-card {
+                  border-radius: 22px; backdrop-filter: blur(12px);
+                  background:
+                    {% if is_state('switch.lights','on') %}
+                      linear-gradient(145deg, rgba(0,255,0,0.35), rgba(0,0,0,0.65));
+                    {% else %}
+                      linear-gradient(145deg, rgba(255,255,255,0.06), rgba(0,0,0,0.35));
+                    {% endif %};
+                  box-shadow:
+                    {% if is_state('switch.lights','on') %}
+                      0 0 40px rgba(0,255,0,1), 0 20px 60px rgba(0,255,0,0.9);
+                    {% else %}
+                      0 8px 24px rgba(0,0,0,0.45);
+                    {% endif %};
+                }
+          - type: custom:mushroom-entity-card
+            name: Scullery Lights
+            entity: switch.lights_2
+            tap_action:
+              action: toggle
+            card_mod:
+              style: |
+                ha-card {
+                  border-radius: 22px; backdrop-filter: blur(12px);
+                  background:
+                    {% if is_state('switch.lights_2','on') %}
+                      linear-gradient(145deg, rgba(0,255,0,0.35), rgba(0,0,0,0.65));
+                    {% else %}
+                      linear-gradient(145deg, rgba(255,255,255,0.06), rgba(0,0,0,0.35));
+                    {% endif %};
+                  box-shadow:
+                    {% if is_state('switch.lights_2','on') %}
+                      0 0 40px rgba(0,255,0,1), 0 20px 60px rgba(0,255,0,0.9);
+                    {% else %}
+                      0 8px 24px rgba(0,0,0,0.45);
+                    {% endif %};
+                }
+          - type: custom:mushroom-entity-card
+            name: Kitchen Cupboard Led
+            icon: mdi:lightbulb-spot
+            entity: switch.stairs_landing_3_down_switch_1
+            tap_action:
+              action: toggle
+            card_mod:
+              style: |
+                ha-card {
+                  border-radius: 22px;
+                  backdrop-filter: blur(12px);
+                  background:
+                    {% if is_state('switch.stairs_landing_3_down_switch_1','on') %}
+                      linear-gradient(145deg, rgba(0,255,0,0.35), rgba(0,0,0,0.65));
+                    {% else %}
+                      linear-gradient(145deg, rgba(255,255,255,0.06), rgba(0,0,0,0.35));
+                    {% endif %};
+                  box-shadow:
+                    {% if is_state('switch.stairs_landing_3_down_switch_1','on') %}
+                      0 0 40px rgba(0,255,0,1), 0 20px 60px rgba(0,255,0,0.9);
+                    {% else %}
+                      0 8px 24px rgba(0,0,0,0.45);
+                    {% endif %};
+                }
+          - type: custom:mushroom-title-card
+            title: Pantry
+            subtitle_tap_action:
+              action: none
+            title_tap_action:
+              action: none
+            alignment: center
+          - type: custom:mushroom-entity-card
+            name: Lights
+            icon: mdi:lightbulb-spot
+            entity: switch.m5_1g_2_switch_1
+            tap_action:
+              action: toggle
+            card_mod:
+              style: |
+                ha-card {
+                  border-radius: 22px; backdrop-filter: blur(12px);
+                  background:
+                    {% if is_state('switch.m5_1g_2_switch_1','on') %}
+                      linear-gradient(145deg, rgba(0,255,0,0.35), rgba(0,0,0,0.65));
+                    {% else %}
+                      linear-gradient(145deg, rgba(255,255,255,0.06), rgba(0,0,0,0.35));
+                    {% endif %};
+                  box-shadow:
+                    {% if is_state('switch.m5_1g_2_switch_1','on') %}
+                      0 0 40px rgba(0,255,0,1), 0 20px 60px rgba(0,255,0,0.9);
+                    {% else %}
+                      0 8px 24px rgba(0,0,0,0.45);
+                    {% endif %};
+                }
+          - type: custom:mushroom-title-card
+            title: Domestic Room
+            subtitle_tap_action:
+              action: none
+            title_tap_action:
+              action: none
+            alignment: center
+          - type: custom:mushroom-entity-card
+            name: Bedroom Lights
+            icon: mdi:lightbulb-spot
+            entity: switch.m5_2g_1_switch_1
+            tap_action:
+              action: toggle
+            card_mod:
+              style: |
+                ha-card {
+                  border-radius: 22px;
+                  backdrop-filter: blur(12px);
+                  background:
+                    {% if states('switch.m5_2g_1_switch_1') == 'on' %}
+                      linear-gradient(145deg, rgba(0,255,0,0.35), rgba(0,0,0,0.65));
+                    {% else %}
+                      linear-gradient(145deg, rgba(255,255,255,0.06), rgba(0,0,0,0.35));
+                    {% endif %};
+                  box-shadow:
+                    {% if states('switch.m5_2g_1_switch_1') == 'on' %}
+                      0 0 40px rgba(0,255,0,1), 0 20px 60px rgba(0,255,0,0.9);
+                    {% else %}
+                      0 8px 24px rgba(0,0,0,0.45);
+                    {% endif %};
+                }
+          - type: custom:mushroom-title-card
+            title: Bathroom
+            subtitle_tap_action:
+              action: none
+            title_tap_action:
+              action: none
+            alignment: center
+          - type: custom:mushroom-entity-card
+            name: Bathroom Lights
+            icon: mdi:lightbulb-spot
+            entity: switch.m5_2g_1_switch_2
+            tap_action:
+              action: toggle
+            card_mod:
+              style: |
+                ha-card {
+                  border-radius: 22px;
+                  backdrop-filter: blur(12px);
+                  background:
+                    {% if states('switch.m5_2g_1_switch_2') == 'on' %}
+                      linear-gradient(145deg, rgba(0,255,0,0.35), rgba(0,0,0,0.65));
+                    {% else %}
+                      linear-gradient(145deg, rgba(255,255,255,0.06), rgba(0,0,0,0.35));
+                    {% endif %};
+                  box-shadow:
+                    {% if states('switch.m5_2g_1_switch_2') == 'on' %}
+                      0 0 40px rgba(0,255,0,1), 0 20px 60px rgba(0,255,0,0.9);
+                    {% else %}
+                      0 8px 24px rgba(0,0,0,0.45);
+                    {% endif %};
+                }
+          - type: custom:mushroom-title-card
+            title: Garage Single
+            subtitle_tap_action:
+              action: none
+            title_tap_action:
+              action: none
+            alignment: center
+          - type: custom:mushroom-entity-card
+            name: Garage Light
+            icon: mdi:lightbulb-spot
+            entity: switch.nspanel1_relay
+            tap_action:
+              action: toggle
+            card_mod:
+              style: |
+                ha-card {
+                  border-radius: 22px; backdrop-filter: blur(12px);
+                  background:
+                    {% if is_state('switch.nspanel1_relay','on') %}
+                      linear-gradient(145deg, rgba(0,255,0,0.35), rgba(0,0,0,0.65));
+                    {% else %}
+                      linear-gradient(145deg, rgba(255,255,255,0.06), rgba(0,0,0,0.35));
+                    {% endif %};
+                  box-shadow:
+                    {% if is_state('switch.nspanel1_relay','on') %}
+                      0 0 40px rgba(0,255,0,1), 0 20px 60px rgba(0,255,0,0.9);
+                    {% else %}
+                      0 8px 24px rgba(0,0,0,0.45);
+                    {% endif %};
+                }
+          - type: custom:mushroom-title-card
+            title: Garage Double
+            subtitle_tap_action:
+              action: none
+            title_tap_action:
+              action: none
+            alignment: center
+          - type: custom:mushroom-entity-card
+            name: Garage - Lights
+            icon: mdi:lightbulb-spot
+            entity: switch.nspanel1_relay_1
+            tap_action:
+              action: toggle
+            card_mod:
+              style: |
+                ha-card {
+                  border-radius: 22px; backdrop-filter: blur(12px);
+                  background:
+                    {% if is_state('switch.nspanel1_relay_1','on') %}
+                      linear-gradient(145deg, rgba(0,255,0,0.35), rgba(0,0,0,0.65));
+                    {% else %}
+                      linear-gradient(145deg, rgba(255,255,255,0.06), rgba(0,0,0,0.35));
+                    {% endif %};
+                  box-shadow:
+                    {% if is_state('switch.nspanel1_relay_1','on') %}
+                      0 0 40px rgba(0,255,0,1), 0 20px 60px rgba(0,255,0,0.9);
+                    {% else %}
+                      0 8px 24px rgba(0,0,0,0.45);
+                    {% endif %};
+                }
+          - type: custom:mushroom-title-card
+            title: Outside - Lights
+            subtitle_tap_action:
+              action: none
+            title_tap_action:
+              action: none
+            alignment: center
+          - type: custom:mushroom-entity-card
+            name: Patio - Lights
+            icon: mdi:lightbulb-spot
+            entity: switch.nspanel2_relay_1
+            tap_action:
+              action: toggle
+            card_mod:
+              style: |
+                ha-card {
+                  border-radius: 22px; backdrop-filter: blur(12px);
+                  background:
+                    {% if is_state('switch.nspanel2_relay_1','on') %}
+                      linear-gradient(145deg, rgba(0,255,0,0.35), rgba(0,0,0,0.65));
+                    {% else %}
+                      linear-gradient(145deg, rgba(255,255,255,0.06), rgba(0,0,0,0.35));
+                    {% endif %};
+                  box-shadow:
+                    {% if is_state('switch.nspanel2_relay_1','on') %}
+                      0 0 40px rgba(0,255,0,1), 0 20px 60px rgba(0,255,0,0.9);
+                    {% else %}
+                      0 8px 24px rgba(0,0,0,0.45);
+                    {% endif %};
+                }
+          - type: custom:mushroom-entity-card
+            name: Outside Downlights Upstairs
+            icon: mdi:lightbulb-spot
+            entity: switch.m5_2g_4_switch_1
+            tap_action:
+              action: toggle
+            card_mod:
+              style: |
+                ha-card {
+                  border-radius: 22px; backdrop-filter: blur(12px);
+                  background:
+                    {% if is_state('switch.m5_2g_4_switch_1','on') %}
+                      linear-gradient(145deg, rgba(0,255,0,0.35), rgba(0,0,0,0.65));
+                    {% else %}
+                      linear-gradient(145deg, rgba(255,255,255,0.06), rgba(0,0,0,0.35));
+                    {% endif %};
+                  box-shadow:
+                    {% if is_state('switch.m5_2g_4_switch_1','on') %}
+                      0 0 40px rgba(0,255,0,1), 0 20px 60px rgba(0,255,0,0.9);
+                    {% else %}
+                      0 8px 24px rgba(0,0,0,0.45);
+                    {% endif %};
+                }
+          - type: custom:mushroom-entity-card
+            name: Wall Lights Upstairs
+            icon: mdi:wall-sconce-flat
+            entity: switch.m5_2g_4_switch_2
+            tap_action:
+              action: toggle
+            card_mod:
+              style: |
+                ha-card {
+                  border-radius: 22px; backdrop-filter: blur(12px);
+                  background:
+                    {% if is_state('switch.m5_2g_4_switch_2','on') %}
+                      linear-gradient(145deg, rgba(0,255,0,0.35), rgba(0,0,0,0.65));
+                    {% else %}
+                      linear-gradient(145deg, rgba(255,255,255,0.06), rgba(0,0,0,0.35));
+                    {% endif %};
+                  box-shadow:
+                    {% if is_state('switch.m5_2g_4_switch_2','on') %}
+                      0 0 40px rgba(0,255,0,1), 0 20px 60px rgba(0,255,0,0.9);
+                    {% else %}
+                      0 8px 24px rgba(0,0,0,0.45);
+                    {% endif %};
+                }
+          - type: custom:mushroom-entity-card
+            name: Entrance Outside
+            icon: mdi:lightbulb-spot
+            entity: switch.m5_3g_1_switch_3
+            tap_action:
+              action: toggle
+            card_mod:
+              style: |
+                ha-card {
+                  border-radius: 22px; backdrop-filter: blur(12px);
+                  background:
+                    {% if is_state('switch.m5_3g_1_switch_3','on') %}
+                      linear-gradient(145deg, rgba(0,255,0,0.35), rgba(0,0,0,0.65));
+                    {% else %}
+                      linear-gradient(145deg, rgba(255,255,255,0.06), rgba(0,0,0,0.35));
+                    {% endif %};
+                  box-shadow:
+                    {% if is_state('switch.m5_3g_1_switch_3','on') %}
+                      0 0 40px rgba(0,255,0,1), 0 20px 60px rgba(0,255,0,0.9);
+                    {% else %}
+                      0 8px 24px rgba(0,0,0,0.45);
+                    {% endif %};
+                }
+    badges:
+      - type: custom:mushroom-entity-card
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace/my-home
+        entity: sensor.backup_backup_manager_state
+        primary_info: name
+        secondary_info: none
+        icon: mdi:backburger
+        hold_action:
+          action: none
+        double_tap_action:
+          action: none
+        name: BACK
+        grid_options:
+          columns: 4
+          rows: 1
+    subview: true
+    cards: []
+
+  - type: sections
+    max_columns: 4
+    title: tv
+    path: tv
+    sections:
+      - type: grid
+        cards:
+          - type: media-control
+            entity: media_player.hisense_85a7na_010ab6f8_television
+            name: Lounge Tv
+          - type: media-control
+            entity: media_player.lounge_amp
+    badges:
+      - type: custom:mushroom-entity-card
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace/my-home
+        entity: sensor.backup_backup_manager_state
+        primary_info: name
+        secondary_info: none
+        icon: mdi:backburger
+        hold_action:
+          action: none
+        double_tap_action:
+          action: none
+        name: BACK
+        grid_options:
+          columns: 4
+          rows: 1
+    subview: true
+    cards: []
+
+  - type: sections
+    max_columns: 4
+    title: scenes
+    path: scenes
+    sections:
+      - type: grid
+        cards:
+          - type: custom:mushroom-title-card
+            title: Lighting Scenes
+            alignment: center
+          - type: horizontal-stack
+            cards:
+              - type: custom:mushroom-template-card
+                primary: GOOD NIGHT
+                secondary: Outside lights stay on
+                icon: mdi:weather-night
+                tap_action:
+                  action: call-service
+                  confirmation:
+                    text: Activate Good Night (Outside Lights Stay On)?
+                  service: scene.turn_on
+                  target:
+                    entity_id: scene.good_night_outside_on
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                card_mod:
+                  style: |
+                    ha-card {
+                      height: 130px;
+                      border-radius: 24px;
+                      backdrop-filter: blur(16px);
+                      background:
+                        radial-gradient(circle at top left, rgba(120,60,255,0.35), transparent 60%),
+                        linear-gradient(145deg, rgba(20,20,35,0.95), rgba(10,10,20,0.9));
+                      box-shadow:
+                        0 12px 30px rgba(0,0,0,0.55),
+                        inset 0 0 40px rgba(120,60,255,0.15);
+                      transition: all 0.3s ease;
+                    }
+
+                    ha-card:hover {
+                      transform: translateY(-4px) scale(1.02);
+                      box-shadow:
+                        0 18px 40px rgba(0,0,0,0.7),
+                        0 0 20px rgba(120,60,255,0.5);
+                    }
+
+                    mushroom-shape-icon {
+                      --icon-size: 42px;
+                      --shape-color: rgba(120,60,255,0.35);
+                      --icon-color: #d6c8ff;
+                    }
+              - type: custom:mushroom-template-card
+                primary: GOOD NIGHT ALL OFF
+                secondary: Entire house lights off
+                icon: mdi:weather-night-off
+                tap_action:
+                  action: call-service
+                  confirmation:
+                    text: Turn OFF all lights in the house?
+                  service: scene.turn_on
+                  target:
+                    entity_id: scene.good_night_all_off
+                hold_action:
+                  action: none
+                double_tap_action:
+                  action: none
+                card_mod:
+                  style: |
+                    ha-card {
+                      height: 130px;
+                      border-radius: 24px;
+                      backdrop-filter: blur(16px);
+                      background:
+                        radial-gradient(circle at top right, rgba(255,70,70,0.35), transparent 60%),
+                        linear-gradient(145deg, rgba(30,15,15,0.95), rgba(15,10,10,0.9));
+                      box-shadow:
+                        0 12px 30px rgba(0,0,0,0.55),
+                        inset 0 0 40px rgba(255,70,70,0.15);
+                      transition: all 0.3s ease;
+                    }
+
+                    ha-card:hover {
+                      transform: translateY(-4px) scale(1.02);
+                      box-shadow:
+                        0 18px 40px rgba(0,0,0,0.7),
+                        0 0 20px rgba(255,70,70,0.5);
+                    }
+
+                    mushroom-shape-icon {
+                      --icon-size: 42px;
+                      --shape-color: rgba(255,70,70,0.35);
+                      --icon-color: #ffd0d0;
+                    }
+    badges:
+      - type: custom:mushroom-entity-card
+        tap_action:
+          action: navigate
+          navigation_path: /lovelace/my-home
+        entity: sensor.backup_backup_manager_state
+        primary_info: name
+        secondary_info: none
+        icon: mdi:backburger
+        hold_action:
+          action: none
+        double_tap_action:
+          action: none
+        name: BACK
+        grid_options:
+          columns: 4
+          rows: 1
+    subview: true
+    cards: []

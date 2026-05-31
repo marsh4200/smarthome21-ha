@@ -1,0 +1,15 @@
+# -----------------------------------------------------------------------------
+# Merge this into your configuration.yaml.
+# If a `lovelace:` key already exists, merge the `dashboards:` entry into it
+# rather than adding a second `lovelace:` block (duplicate keys break the config).
+# -----------------------------------------------------------------------------
+
+lovelace:
+  mode: storage          # keeps the default dashboard editable in the UI
+  dashboards:
+    smarthome21:
+      mode: yaml
+      title: Smart Home 21
+      icon: mdi:home-assistant
+      show_in_sidebar: true
+      filename: dashboards/smarthome21.yaml
